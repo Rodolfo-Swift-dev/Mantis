@@ -6,7 +6,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, ObservableObject {
     
     @IBOutlet weak var viewTextField: UIView!
     @IBOutlet weak var view1: UIView!
@@ -47,7 +47,7 @@ class HomeViewController: UIViewController {
         
         networkManager.delegate = self
         searchTextfield.delegate = self
-       
+      
     }
 }
 //MARK: - UITextFieldDelegate
@@ -55,7 +55,6 @@ extension HomeViewController: UITextFieldDelegate {
     
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextfield.endEditing(true)
-        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -65,6 +64,7 @@ extension HomeViewController: UITextFieldDelegate {
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.text != "" {
+         
             return true
         } else {
             textField.placeholder = "Type something"
@@ -72,10 +72,15 @@ extension HomeViewController: UITextFieldDelegate {
         }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
+    func textFieldDidEndEditing(_ textField: UITextField)  {
+       
         if let nameUser = searchTextfield.text {
-            networkManager.fetchNetwork(searchName: nameUser)
+          print(nameUser)
+            Task {
+                await self.networkManager.processNetwork(name: nameUser)
+            }
+            
+         
         }
         
         searchTextfield.text = ""
@@ -87,11 +92,11 @@ extension HomeViewController: NetworkManagerDelegate {
     
     func didUpdateNetwork(_ networkManager: NetworkManager, network: [NetworkModel]) {
         DispatchQueue.main.async {
-            self.checkView1.image = UIImage(systemName: network[0].condition.conditionName)
-            self.checkView2.image = UIImage(systemName: network[1].condition.conditionName)
-            self.checkView3.image = UIImage(systemName: network[2].condition.conditionName)
-            self.checkView4.image = UIImage(systemName: network[3].condition.conditionName)
-            self.checkView5.image = UIImage(systemName: network[4].condition.conditionName)
+            self.checkView1.image = UIImage(systemName: network[0].condition.sFSymbolName)
+            self.checkView2.image = UIImage(systemName: network[1].condition.sFSymbolName)
+            self.checkView3.image = UIImage(systemName: network[2].condition.sFSymbolName)
+            self.checkView4.image = UIImage(systemName: network[3].condition.sFSymbolName)
+            self.checkView5.image = UIImage(systemName: network[4].condition.sFSymbolName)
             self.label1.text = network[0].condition.conditionString
             self.label2.text = network[1].condition.conditionString
             self.label3.text = network[2].condition.conditionString

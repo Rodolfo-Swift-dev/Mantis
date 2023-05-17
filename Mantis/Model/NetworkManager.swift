@@ -2,7 +2,8 @@
 //  Mantis
 //  Created by rodoolfo gonzalez on 10-05-23.
 
-import Foundation
+import UIKit
+import AVFoundation
 
 protocol NetworkManagerDelegate {
     func didUpdateNetwork(_ networkManager: NetworkManager, network: [NetworkModel])
@@ -13,6 +14,50 @@ struct NetworkManager {
 
     var delegate: NetworkManagerDelegate?
     
+   
+    
+    func processNetwork(name : String) async{
+        
+        let url = await fetchURL(search: name)
+        do{
+            let data = try await performReq(with: url)
+            if let result = try await parsJson(data){
+                self.delegate?.didUpdateNetwork(self, network: result)
+            }
+            
+        }catch {
+            self.delegate?.didFailWithError(error: error)
+        }
+    }
+    
+    func fetchURL(search: String)async -> String{
+        
+        let url = "https://checkmarks.com/api/v1/username/\(search)/account/rodDev/password/kCfx4NVgtW"
+        return url
+    }
+    
+    func performReq(with url: String) async throws -> Data{
+    
+        let (data, _) = try await URLSession.shared.data(from: URL(string: url)!)
+        return data
+        
+    }
+    
+    func parsJson(_ networkData: Data) async throws -> [NetworkModel]?{
+        
+        let decoder = JSONDecoder()
+        let decodedDataArray : [NetworkData] = try! decoder.decode([NetworkData].self , from: networkData)
+        let face = NetworkModel(web: decodedDataArray[0].website, status: decodedDataArray[0].status)
+        let twitter = NetworkModel(web: decodedDataArray[1].website, status: decodedDataArray[1].status)
+        let instagram = NetworkModel(web: decodedDataArray[2].website, status: decodedDataArray[2].status)
+        let snapchat = NetworkModel(web: decodedDataArray[3].website, status: decodedDataArray[3].status)
+        let youtube = NetworkModel(web: decodedDataArray[4].website, status: decodedDataArray[4].status)
+        let networkArray = [face, twitter, instagram, snapchat, youtube]
+        return networkArray
+        
+    }
+   
+    /*
     func fetchNetwork(searchName: String) {
         
         let urlString = "https://checkmarks.com/api/v1/username/\(searchName)/account/rodDev/password/kCfx4NVgtW"
@@ -21,28 +66,35 @@ struct NetworkManager {
     
     func performRequest(with urlString: String) {
         if let url = URL(string: urlString) {
-            let session = URLSession(configuration: .default)
+            
+            let session = URLSession(configuration: .ephemeral)
+            
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error != nil {
                     self.delegate?.didFailWithError(error: error!)
+                
                     return
                 }
                 if let safeData = data {
                     
                     if let network = self.parseJSON(safeData) {
-                        self.delegate?.didUpdateNetwork(self, network: network)
+                        
+                            self.delegate?.didUpdateNetwork(self, network: network)
+                        }
+                        
                     }
                 }
-            }
             task.resume()
+            }
+            
         }
-    }
+    
     
     func parseJSON(_ networkData: Data) -> [NetworkModel]? {
         let decoder = JSONDecoder()
         do {
             
-            let decodedDataArray : [NetworkData] = try decoder.decode([NetworkData].self , from: networkData)
+            let decodedDataArray : [NetworkData] = try JSONDecoder().decode([NetworkData].self , from: networkData)
             let face = NetworkModel(web: decodedDataArray[0].website, status: decodedDataArray[0].status)
             let twitter = NetworkModel(web: decodedDataArray[1].website, status: decodedDataArray[1].status)
             let instagram = NetworkModel(web: decodedDataArray[2].website, status: decodedDataArray[2].status)
@@ -59,4 +111,5 @@ struct NetworkManager {
             return nil
         }
     }
+    */
 }

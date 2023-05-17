@@ -21,18 +21,18 @@ struct NetworkModel {
        
         switch status{
         case 0:
-            return Condition(conditionName: "xmark.circle.fill", conditionString: "Ocupado")
+            return Condition(sFSymbolName: "xmark.circle.fill", conditionString: "Ocupado")
         case 1:
-            return Condition(conditionName: "checkmark.circle.fill", conditionString: "Disponible")
+            return Condition(sFSymbolName: "checkmark.circle.fill", conditionString: "Disponible")
         default:
              
-            return Condition(conditionName: "exclamationmark.triangle.fill", conditionString: "Error Char.")
+            return Condition(sFSymbolName: "exclamationmark.triangle.fill", conditionString: "Error Char.")
         }
     }
 }
 
 struct Condition{
-    let conditionName : String
+    let sFSymbolName : String
     let conditionString : String
     
 }
