@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct NetworkArray{
+struct NetworkModel{
     
-    let netArray: [NetworkModel]
-
+    let netArray: [DataInfo]
+    
 }
 
-struct NetworkModel {
+
+struct DataInfo{
     
     let web : String
     let status : Int

@@ -7,12 +7,16 @@
 
 import Foundation
 
-struct NetworkData: Codable {
+struct Response: Codable {
     
+    var results : [Result]
+   
+}
+
+struct Result : Codable {
     let website : String
     let status : Int
 }
-
 
 
 

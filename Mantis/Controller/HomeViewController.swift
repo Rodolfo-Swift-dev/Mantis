@@ -80,7 +80,6 @@ extension HomeViewController: UITextFieldDelegate {
                 await self.networkManager.processNetwork(name: nameUser)
             }
             
-         
         }
         
         searchTextfield.text = ""
@@ -90,7 +89,7 @@ extension HomeViewController: UITextFieldDelegate {
 //MARK: - NetworkManagerDelegate
 extension HomeViewController: NetworkManagerDelegate {
     
-    func didUpdateNetwork(_ networkManager: NetworkManager, network: [NetworkModel]) {
+    func didUpdateNetwork(_ networkManager: NetworkManager, network: [DataInfo]) {
         DispatchQueue.main.async {
             self.checkView1.image = UIImage(systemName: network[0].condition.sFSymbolName)
             self.checkView2.image = UIImage(systemName: network[1].condition.sFSymbolName)
