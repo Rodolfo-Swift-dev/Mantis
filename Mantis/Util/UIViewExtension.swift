@@ -16,6 +16,16 @@ extension UIView {
             clipsToBounds = true
             
         }
-    
-       
+      
+}
+extension UIButton{
+    // Borde redondo
+        func rounded() {
+            layer.cornerRadius = frame.size.height / 5
+            
+               
+            clipsToBounds = true
+            
+        }
+      
 }

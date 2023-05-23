@@ -8,6 +8,8 @@ import UIKit
 
 class HomeViewController: UIViewController, ObservableObject {
     
+    var networkResult : [DataInfo] = []
+    
     @IBOutlet weak var viewTextField: UIView!
     @IBOutlet weak var view1: UIView!
     @IBOutlet weak var view2: UIView!
@@ -17,20 +19,7 @@ class HomeViewController: UIViewController, ObservableObject {
     @IBOutlet weak var view6: UIView!
     
     @IBOutlet weak var searchTextfield: UITextField!
-        
-    @IBOutlet weak var checkView1: UIImageView!
-    @IBOutlet weak var checkView2: UIImageView!
-    @IBOutlet weak var checkView3: UIImageView!
-    @IBOutlet weak var checkView4: UIImageView!
-    @IBOutlet weak var checkView5: UIImageView!
-    @IBOutlet weak var checkView6: UIImageView!
-    
-    @IBOutlet weak var label1: UILabel!
-    @IBOutlet weak var label2: UILabel!
-    @IBOutlet weak var label3: UILabel!
-    @IBOutlet weak var label4: UILabel!
-    @IBOutlet weak var label5: UILabel!
-    @IBOutlet weak var label6: UILabel!
+  
     
     var networkManager = NetworkManager()
     
@@ -90,18 +79,29 @@ extension HomeViewController: UITextFieldDelegate {
 extension HomeViewController: NetworkManagerDelegate {
     
     func didUpdateNetwork(_ networkManager: NetworkManager, network: [DataInfo]) {
+        self.networkResult = network
         DispatchQueue.main.async {
-            self.checkView1.image = UIImage(systemName: network[0].condition.sFSymbolName)
-            self.checkView2.image = UIImage(systemName: network[1].condition.sFSymbolName)
-            self.checkView3.image = UIImage(systemName: network[2].condition.sFSymbolName)
-            self.checkView4.image = UIImage(systemName: network[3].condition.sFSymbolName)
-            self.checkView5.image = UIImage(systemName: network[4].condition.sFSymbolName)
-            self.label1.text = network[0].condition.conditionString
-            self.label2.text = network[1].condition.conditionString
-            self.label3.text = network[2].condition.conditionString
-            self.label4.text = network[3].condition.conditionString
-            self.label5.text = network[4].condition.conditionString
-    
+            
+            self.performSegue(withIdentifier: "goToResult", sender: self)
+        }
+       
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToResult" {
+            let destinationVC = segue.destination as! ResultViewController
+            
+            destinationVC.image1 = UIImage(systemName: networkResult[0].condition.sFSymbolName)
+            destinationVC.image2 = UIImage(systemName: networkResult[1].condition.sFSymbolName)
+            destinationVC.image3 = UIImage(systemName: networkResult[2].condition.sFSymbolName)
+            destinationVC.image4 = UIImage(systemName: networkResult[3].condition.sFSymbolName)
+            destinationVC.image5 = UIImage(systemName: networkResult[4].condition.sFSymbolName)
+            
+            destinationVC.label1Result = networkResult[0].condition.conditionString
+            destinationVC.label2Result = networkResult[1].condition.conditionString
+            destinationVC.label3Result = networkResult[2].condition.conditionString
+            destinationVC.label4Result = networkResult[3].condition.conditionString
+            destinationVC.label5Result = networkResult[4].condition.conditionString
+            
         }
     }
     func didFailWithError(error: Error) {

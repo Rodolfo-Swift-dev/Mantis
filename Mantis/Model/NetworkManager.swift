@@ -40,7 +40,7 @@ class NetworkManager {
     
     func regularExpre(text: String)async -> String?{
         
-        let normalizedText = NSMutableString(string: text.lowercased().folding(options: .diacriticInsensitive, locale: .current))
+        let normalizedText = NSMutableString(string: text.folding(options: .diacriticInsensitive, locale: .current))
 
         let range = NSMakeRange(0, normalizedText.length)
         
