@@ -20,20 +20,40 @@ class NetworkManager {
         
         
         do{
-            if let url = try await fetchURL(search: name){
-                if let data = try await performReq(with: url){
-                    if let dataResult = try await parsJson(data){
-                        self.delegate?.didUpdateNetwork(self, network: dataResult)
+            if let stringText = try await regularExpre(text: name){
+                if let url = try await fetchURL(search: stringText){
+                    if let data = try await performReq(with: url){
+                        if let dataResult = try await parsJson(data){
+                            self.delegate?.didUpdateNetwork(self, network: dataResult)
+                        }
                     }
+                   
                 }
-               
             }
+            
            
             
         }catch {
             self.delegate?.didFailWithError(error: error)
         }
     }
+    
+    func regularExpre(text: String)async -> String?{
+        
+        let normalizedText = NSMutableString(string: text.lowercased().folding(options: .diacriticInsensitive, locale: .current))
+
+        let range = NSMakeRange(0, normalizedText.length)
+        
+        let regex = try! NSRegularExpression(pattern: "[^a-z0-9]", options: [])
+        
+        regex.replaceMatches(in: normalizedText, options: [], range: range, withTemplate: "")
+        print(normalizedText.description)
+        let text = String(normalizedText)
+      
+        return text
+       
+    }
+
     
     func fetchURL(search: String )async -> String? {
       
