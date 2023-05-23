@@ -20,8 +20,8 @@ class NetworkManager {
         
         
         do{
-            if let stringText = try await regularExpre(text: name){
-                if let url = try await fetchURL(search: stringText){
+            if let stringText =  regularExpre(text: name){
+                if let url = fetchURL(search: stringText){
                     if let data = try await performReq(with: url){
                         if let dataResult = try await parsJson(data){
                             self.delegate?.didUpdateNetwork(self, network: dataResult)
@@ -38,7 +38,7 @@ class NetworkManager {
         }
     }
     
-    func regularExpre(text: String)async -> String?{
+    func regularExpre(text: String) -> String?{
         
         let normalizedText = NSMutableString(string: text.folding(options: .diacriticInsensitive, locale: .current))
 
@@ -55,7 +55,7 @@ class NetworkManager {
     }
 
     
-    func fetchURL(search: String )async -> String? {
+    func fetchURL(search: String ) -> String? {
       
         let url = "https://checkmarks.com/api/v1/username/\(search)/account/rodDev/password/kCfx4NVgtW"
          

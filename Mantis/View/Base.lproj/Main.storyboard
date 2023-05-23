@@ -689,13 +689,13 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bah-xx-oVp">
-                                        <rect key="frame" x="28.666666666666657" y="456" width="353" height="446"/>
+                                        <rect key="frame" x="0.0" y="456" width="410" height="446"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d65-hm-pX8">
-                                                <rect key="frame" x="50" y="198" width="253" height="50"/>
+                                                <rect key="frame" x="167.66666666666666" y="203" width="75" height="40"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="rOb-cn-orK"/>
+                                                    <constraint firstAttribute="height" constant="40" id="rOb-cn-orK"/>
                                                 </constraints>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
@@ -708,15 +708,16 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="d65-hm-pX8" firstAttribute="leading" secondItem="Bah-xx-oVp" secondAttribute="leading" constant="50" id="FVP-nv-dgD"/>
-                                            <constraint firstAttribute="trailing" secondItem="d65-hm-pX8" secondAttribute="trailing" constant="50" id="dsm-IO-bZ4"/>
-                                            <constraint firstItem="d65-hm-pX8" firstAttribute="centerY" secondItem="Bah-xx-oVp" secondAttribute="centerY" id="g7R-bq-DXz"/>
+                                            <constraint firstItem="d65-hm-pX8" firstAttribute="centerY" secondItem="Bah-xx-oVp" secondAttribute="centerY" id="67b-pJ-HRS"/>
+                                            <constraint firstItem="d65-hm-pX8" firstAttribute="centerX" secondItem="Bah-xx-oVp" secondAttribute="centerX" id="jBX-4Q-cgv"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="snf-SO-VTe" firstAttribute="leading" secondItem="cML-4v-AZk" secondAttribute="leading" constant="10" id="KVG-KI-p9D"/>
+                                    <constraint firstItem="Bah-xx-oVp" firstAttribute="leading" secondItem="cML-4v-AZk" secondAttribute="leading" id="WJJ-Bg-kJ6"/>
                                     <constraint firstAttribute="trailing" secondItem="snf-SO-VTe" secondAttribute="trailing" constant="10" id="ePn-Tm-AZs"/>
+                                    <constraint firstAttribute="trailing" secondItem="Bah-xx-oVp" secondAttribute="trailing" id="hjg-1e-XdA"/>
                                 </constraints>
                             </stackView>
                         </subviews>
